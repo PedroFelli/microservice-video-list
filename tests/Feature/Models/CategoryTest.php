@@ -31,14 +31,16 @@ class CategoryTest extends TestCase
             $cateKey);
     }
 
-    public function testeCreate(){
+    public function testeCreate()
+    {
         $category = Category::create([
             'name' => 'test1'
         ]);
 
         $category->refresh();
+        $this->assertEquals(36, strlen($category->id));
         $this->assertEquals('test1', $category->name);
-        $this->assertNull( $category->description);
+        $this->assertNull($category->description);
         $this->assertTrue($category->is_active);
 
         $category = Category::create([
@@ -68,6 +70,39 @@ class CategoryTest extends TestCase
         ]);
 
         $this->assertEquals('test_description', $category->description);
+    }
+
+    public function testeUpdate()
+    {
+
+        /** @var Category $category */
+
+        $category = factory(Category::class)->create([
+            'description' => 'test_description',
+            'is_active' => false
+        ]);
+
+        $data = [
+            'name' => 'test_name_updated',
+            'description' => 'test_description',
+            'is_active' => true
+        ];
+
+        $category->update($data);
+
+        foreach ($data as $key => $value) {
+            $this->assertEquals($value, $category->{$key});
+        }
+    }
+
+    public function testDelete(){
+        /** @var Category $category */
+        $category = factory(Category::class)->create();
+        $category->delete();
+        $this->assertNull(Category::find($category->id));
+
+        $category->restore();
+        $this->assertNotNull(Category::find($category->id));
     }
 
 }
