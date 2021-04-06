@@ -4,8 +4,7 @@ namespace Tests\Feature\Http\Controllers\Api;
 
 use App\Models\Category;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+
 use Tests\TestCase;
 
 class CategoryControllerTest extends TestCase
@@ -34,5 +33,16 @@ class CategoryControllerTest extends TestCase
         $response
             ->assertStatus(200)
             ->assertJson($category->toArray());
+    }
+
+    public function testInvalidationData(){
+        $response = $this->json('POST',route('categories.store'), []);
+        $response
+            ->assertStatus(422)
+            ->assertJsonValidationErrors(['name'])
+            ->assertJsonFragment([
+                \Lang::get('validation.required', [ 'attribute' => 'name'])
+            ]);
+
     }
 }
