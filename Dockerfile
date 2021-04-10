@@ -18,7 +18,7 @@ WORKDIR /var/www
 
 RUN rm -rf /var/www/html && ln -s public html
 
-
+RUN dos2unix .docker\entrypoint.sh
 
 USER www-data
 
