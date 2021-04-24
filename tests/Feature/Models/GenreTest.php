@@ -3,7 +3,7 @@
 namespace Tests\Feature\Models;
 
 
-use App\Models\Genre;
+use Tests\Stubs\Models\Genre;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 

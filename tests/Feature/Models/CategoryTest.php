@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Models;
 
-use App\Models\Category;
+use Tests\Stubs\Models\CategoryStub;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -14,8 +14,8 @@ class CategoryTest extends TestCase
 
     public function testList()
     {
-        factory(Category::class, 1)->create();
-        $categories = Category::all();
+        factory(CategoryStub::class, 1)->create();
+        $categories = CategoryStub::all();
         $this->assertCount(1, $categories);
         $cateKey = array_keys($categories->first()->getAttributes());
         $this->assertEqualsCanonicalizing(
@@ -33,7 +33,7 @@ class CategoryTest extends TestCase
 
     public function testeCreate()
     {
-        $category = Category::create([
+        $category = CategoryStub::create([
             'name' => 'test1'
         ]);
 
@@ -43,20 +43,20 @@ class CategoryTest extends TestCase
         $this->assertNull($category->description);
         $this->assertTrue($category->is_active);
 
-        $category = Category::create([
+        $category = CategoryStub::create([
             'name' => 'test1',
             'description' => null
         ]);
 
         $this->assertNull($category->description);
-        $category = Category::create([
+        $category = CategoryStub::create([
             'name' => 'test1',
             'is_active' => false
         ]);
 
         $this->assertFalse($category->is_active);
         $this->assertNull($category->description);
-        $category = Category::create([
+        $category = CategoryStub::create([
             'name' => 'test1',
             'is_active' => true
         ]);
@@ -64,7 +64,7 @@ class CategoryTest extends TestCase
         $this->assertTrue($category->is_active);
 
 
-        $category = Category::create([
+        $category = CategoryStub::create([
             'name' => 'test1',
             'description' => 'test_description'
         ]);
@@ -75,9 +75,9 @@ class CategoryTest extends TestCase
     public function testeUpdate()
     {
 
-        /** @var Category $category */
+        /** @var CategoryStub $category */
 
-        $category = factory(Category::class)->create([
+        $category = factory(CategoryStub::class)->create([
             'description' => 'test_description',
             'is_active' => false
         ]);
@@ -96,13 +96,13 @@ class CategoryTest extends TestCase
     }
 
     public function testDelete(){
-        /** @var Category $category */
-        $category = factory(Category::class)->create();
+        /** @var CategoryStub $category */
+        $category = factory(CategoryStub::class)->create();
         $category->delete();
-        $this->assertNull(Category::find($category->id));
+        $this->assertNull(CategoryStub::find($category->id));
 
         $category->restore();
-        $this->assertNotNull(Category::find($category->id));
+        $this->assertNotNull(CategoryStub::find($category->id));
     }
 
 }

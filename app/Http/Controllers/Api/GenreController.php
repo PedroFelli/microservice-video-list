@@ -6,8 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Genre;
 use Illuminate\Http\Request;
 
-class GenreController extends Controller
+abstract class GenreController extends Controller
 {
+    protected abstract function model();
+    protected abstract function routeStore();
+    protected abstract function routeUpdate();
+
 
     private $rules = [
         'name' => 'required|max:255',
@@ -23,7 +27,9 @@ class GenreController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, $this->rules);
-        return Genre::create($request->all());
+        $genre = Genre::create($request->all());
+        $genre->refresh();
+        return  $genre;
     }
 
     public function show(Genre $genre)

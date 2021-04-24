@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Models;
 
-use App\Models\Category;
-use App\Models\Traits\Uuid;
+use Tests\Stubs\Models\CategoryStub;
+use Tests\Stubs\Models\Traits\Uuid;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Tests\TestCase;
 
@@ -14,7 +14,7 @@ class CategoryTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->category = new Category();
+        $this->category = new CategoryStub();
     }
 
     public function testIfUseTraits()
@@ -23,7 +23,7 @@ class CategoryTest extends TestCase
         $traits = [
             SoftDeletes::class, Uuid::class
         ];
-        $categoryTraits = array_keys(class_uses(Category::class));
+        $categoryTraits = array_keys(class_uses(CategoryStub::class));
         $this->assertEquals($traits, $categoryTraits);
 
     }
@@ -48,7 +48,7 @@ class CategoryTest extends TestCase
 
     public function testIncrementing()
     {
-        $category = new Category();
+        $category = new CategoryStub();
         $this->assertFalse($this->category->incrementing);
 
     }
